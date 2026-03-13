@@ -565,6 +565,12 @@ async def scan_project(
     if scan_request and scan_request.file_paths:
         user_config['scan_config'] = {'file_paths': scan_request.file_paths}
 
+    if scan_request:
+        user_config['scan_config'] = {
+            'exclude_patterns': scan_request.exclude_patterns or [],
+            'rule_set_id': scan_request.rule_set_id,
+            'prompt_template_id': scan_request.prompt_template_id,
+    }
     # Trigger Background Task
     background_tasks.add_task(scan_repo_task, task.id, AsyncSessionLocal, user_config)
 
